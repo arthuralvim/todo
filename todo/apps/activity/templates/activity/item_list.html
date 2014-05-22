@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% load activity_tags %}
+
+{% block menu %}
+{% include "menu.html" %}
+{% endblock menu %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class=" col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+            <form action="{% url 'create' %}" method="POST">
+                <div class="input-group input-group-lg">
+                    {% csrf_token %}
+                    {{ form.name|attrs:"class:form-control;placeholder:Type the name of a new list..." }}
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-lg btn-success"><i class="glyphicon glyphicon-plus"></i></button>
+                    </span>
+                </div>
+            </form>
+
+            <br>
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} fade in">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+
+            <div class="table">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Lists Name</th>
+                            <th>Progress</th>
+                            <th class="hidden-xs hidden-sm">Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for it in items %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="col-md-6">{{ it.name }}</td>
+                            <td class="col-md-3">
+                                <div class="progress progress-striped active">
+                                  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                    45%
+                                  </div>
+                                </div>
+                            </td>
+                            <td class="hidden-xs hidden-sm">{{ it.created|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-xs btn-default" data-toggle="modal" data-target="#editModal"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a href="#" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal 1 -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Delete -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Delete Item</h4>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to delete this Item???
+                        </div>
+                        <div class="modal-footer">
+                            <form action="">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pag text-center">
+                <ul class="pagination pagination-lg">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+{% endblock content %}

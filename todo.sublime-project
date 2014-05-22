@@ -1,0 +1,17 @@
+// todo.sublime-project
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python_interpreter_path": "~/.virtualenvs/todo/bin/python",
+
+        "python_package_paths": [
+            "~/.virtualenvs/todo/lib/python2.7/site-packages/"
+            ]
+    }
+}
