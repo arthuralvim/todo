@@ -31,10 +31,19 @@
     {% block scripts %}
     <script src="{{ STATIC_URL }}js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}js/angular.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}js/angular/services/services.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="{{ STATIC_URL }}js/angular.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}js/angular-resource.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/angular/todo.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}js/angular/services/services.js" type="text/javascript" charset="UTF-8"></script>
     <script src="{{ STATIC_URL }}js/application.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+    // Add the CSRF Token
+    var app = angular.module('todo');
+    app.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
+    }]);
+    </script>
     {% endblock scripts %}
 
   </body>
