@@ -55,6 +55,7 @@ LOCAL_APPS = (
 
 THIRD_PARTY_APPS = (
     'gunicorn',
+    'rest_framework',
     'south',
 )
 
@@ -148,3 +149,13 @@ else:
 
 # ALL OTHER KEYS
 from keys import *
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+}

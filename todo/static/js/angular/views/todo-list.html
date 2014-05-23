@@ -1,0 +1,42 @@
+<form ng-controller="todoCtrl as todo_ctrl"
+    ng-submit="todo_ctrl.create(todo_list)">
+    <div class="input-group input-group-lg">
+        <input type="text" class="form-control" placeholder="Type the name of a new list...">
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-lg btn-success"><i class="glyphicon glyphicon-plus"></i></button>
+        </span>
+    </div>
+</form>
+<div class="table">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Lists Name</th>
+                <th>Progress</th>
+                <th class="hidden-xs hidden-sm">Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="todo in todoCtrl.todolist">
+                <td>{_ $index+1 _}</td>
+                <td class="col-md-6">{_ todo.name _}</td>
+                <td class="col-md-3">
+                    <div class="progress progress-striped active">
+                      <div class="progress-bar"  role="progressbar" aria-valuenow="{_ todo.progress _}" aria-valuemin="0" aria-valuemax="100" style="width: {_ todo.progress _}%">
+                        {_ todo.progress _}%
+                      </div>
+                    </div>
+                </td>
+                <td class="hidden-xs hidden-sm">{_ todo.created |date:"d/M/yyyy H:m" _}</td>
+                <td>
+                    <div class="btn-group">
+                        <a ng-click="todoCtrl.update(todo)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a ng-click="todoCtrl.delete(todo.id)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

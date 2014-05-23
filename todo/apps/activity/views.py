@@ -1,68 +1,71 @@
-from activity.forms import ItemForm
-from activity.models import Item
+from activity.forms import TodoListForm
+from activity.models import TodoList
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import DeleteView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
 
-class IndexView(TemplateView):
-    template_name = 'activity/index.html'
+class TodoListListView(ListView):
 
-indexview = IndexView.as_view()
-
-
-class ItemListView(ListView):
-
-    context_object_name = 'items'
-    model = Item
+    context_object_name = 'todolists'
+    model = TodoList
     paginate_by = 10
-    template_name = 'activity/item_list.html'
+    template_name = 'activity/todolist_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ItemListView, self).get_context_data(**kwargs)
-        form = ItemForm()
+        context = super(TodoListListView, self).get_context_data(**kwargs)
+        form = TodoListForm()
         context.update({'form': form})
         return context
 
-item_list_view = ItemListView.as_view()
+todolist_list_view = TodoListListView.as_view()
 
 
-class ItemCreateView(CreateView):
+class TodoListCreateView(CreateView):
 
     fields = ('name',)
-    form_class = ItemForm
-    model = Item
-    success_url = reverse_lazy('list')
-    template_name = 'activity/item_list.html'
+    form_class = TodoListForm
+    model = TodoList
+    success_url = reverse_lazy('activity:todo-list')
+    template_name = 'activity/todolist_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ItemCreateView, self).get_context_data(**kwargs)
-        items = Item.objects.all()
-        context.update({'items': items})
+        context = super(TodoListCreateView, self).get_context_data(**kwargs)
+        todolists = TodoList.objects.all()
+        context.update({'todolists': todolists})
         return context
 
-item_create_view = ItemCreateView.as_view()
+todolist_create_view = TodoListCreateView.as_view()
 
 
-class ItemDeleteView(DeleteView):
+class TodoListDeleteView(DeleteView):
 
-    model = Item
-    success_url = reverse_lazy('list')
-    template_name = 'activity/item_list.html'
+    model = TodoList
+    success_url = reverse_lazy('activity:todo-list')
+    template_name = 'activity/todolist_list.html'
 
-item_delete_view = ItemDeleteView.as_view()
+todolist_delete_view = TodoListDeleteView.as_view()
 
 
-class ItemUpdateView(UpdateView):
+class TodoListUpdateView(UpdateView):
 
     fields = ('name',)
-    form_class = ItemForm
-    model = Item
-    success_url = reverse_lazy('list')
-    template_name = 'activity/item_list.html'
+    form_class = TodoListForm
+    model = TodoList
+    success_url = reverse_lazy('activity:todo-list')
+    template_name = 'activity/todolist_list.html'
 
 
-item_update_view = ItemUpdateView.as_view()
+todolist_update_view = TodoListUpdateView.as_view()
+
+
+class TodoListDetailView(DetailView):
+
+    model = TodoList
+    template_name = 'activity/todolist_list.html'
+
+
+todolist_detail_view = TodoListDetailView.as_view()

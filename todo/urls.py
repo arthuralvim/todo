@@ -1,8 +1,3 @@
-from activity.views import indexview
-from activity.views import item_create_view
-from activity.views import item_delete_view
-from activity.views import item_list_view
-from activity.views import item_update_view
 from django.conf.urls import include
 from django.conf.urls import patterns
 from django.conf.urls import url
@@ -16,10 +11,8 @@ handler500 = 'todo.errors.server_error'
 
 urlpatterns = patterns(
     '',
-    url(r'^$', indexview, name='index'),
-    url(r'^lista$', item_list_view, name='list'),
-    url(r'^deleta-lista/$', item_delete_view, name='delete'),
-    url(r'^atualiza-lista/$', item_update_view, name='update'),
-    url(r'^criar-lista$', item_create_view, name='create'),
+    url(r'^', include('activity.urls', namespace='activity')),
+    url(r'^api-auth/', include('rest_framework.urls',
+        namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
 )
