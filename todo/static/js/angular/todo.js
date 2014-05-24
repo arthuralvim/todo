@@ -6,12 +6,12 @@
         $interpolateProvider.endSymbol('_}');
     });
 
-    app.directive('todoList', [ '$http', '$location', 'TodoListsFactory', 'TodoListFactory', function($scope, $http, $location, TodoListsFactory, TodoListFactory){
+    app.directive('todoList', [ '$http', '$location', 'TodoRUDFactory', 'TodoLCFactory', function($scope, $http, $location, TodoRUDFactory, TodoLCFactory){
 
         return {
             restrict: 'E',
             templateUrl: 'static/js/angular/views/todo-list.html',
-            controller: function($http, $location){
+            controller: function($http, $location, TodoRUDFactory, TodoLCFactory){
 
                 var todo = this;
                 todo.todolist = [];
@@ -22,23 +22,30 @@
                 };
 
                 todo.create = function () {
+                    op = TodoLCFactory.create(todo.new_todo)
+                    op.$promise.then(function (data) {
+                        console.log('Promise: ' + data);
+                    });
                     debugger;
-                  operation = TodoListsFactory.create(todo.new_todo);
                   todo.new_todo = {}
-                  todo.todolist = TodoListsFactory.query();
+                  todo.todolist = TodoLCFactory.query();
                 };
 
                 todo.delete = function (id) {
-                  TodoListFactory.delete({ id: id });
-                  todo.todolist = TodoListsFactory.query();
+                  TodoRUDFactory.delete({ id: id });
+                  todo.todolist = TodoLCFactory.query();
                 };
 
                 todo.update = function () {
-                  TodoListFactory.update(todo.new_todo);
-                  todo.todolist = TodoListsFactory.query();
+                  TodoRUDFactory.update(todo.new_todo);
+                  todo.todolist = TodoLCFactory.query();
                 };
 
-                todo.todolist = TodoListsFactory.query();
+                todo.todolist = TodoLCFactory.query()
+
+                todo.todolist.$promise.then(function (data) {
+                    console.log('Promise: ' + data);
+                });
 
             },
             controllerAs: 'todoCtrl'
