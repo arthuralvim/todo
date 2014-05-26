@@ -7,7 +7,7 @@ class TodoList(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     difficulty = models.IntegerField(default=0)
     done = models.BooleanField(default=False)
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, blank=False)
     onhold = models.BooleanField(default=False)
     priority = models.IntegerField(default=0)
     progress = models.IntegerField(default=0, editable=False)

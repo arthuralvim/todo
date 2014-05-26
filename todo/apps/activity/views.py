@@ -1,3 +1,4 @@
+from activity.forms import TodoListCompleteForm
 from activity.forms import TodoListForm
 from activity.models import TodoList
 from django.core.urlresolvers import reverse_lazy
@@ -18,7 +19,9 @@ class TodoListListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(TodoListListView, self).get_context_data(**kwargs)
         form = TodoListForm()
+        form_update = TodoListCompleteForm()
         context.update({'form': form})
+        context.update({'form_update': form_update})
         return context
 
 todolist_list_view = TodoListListView.as_view()
@@ -31,12 +34,6 @@ class TodoListCreateView(CreateView):
     model = TodoList
     success_url = reverse_lazy('activity:todo-list')
     template_name = 'activity/todolist_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(TodoListCreateView, self).get_context_data(**kwargs)
-        todolists = TodoList.objects.all()
-        context.update({'todolists': todolists})
-        return context
 
 todolist_create_view = TodoListCreateView.as_view()
 

@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h3 class="modal-title">Update TodoList</h3>
+</div>
+<div class="modal-body">
+<form method="post" class="form-horizontal">
+    <div class="form-group">
+        <label for="id_difficulty">Difficulty</label>
+            <input class="form-control" id="id_difficulty" name="difficulty" ng-model="detail.difficulty" type="number" value="0">
+    </div>
+
+    <div class="form-group">
+        <div class="checkbox">
+        <label for="id_done">
+            <input id="id_done" name="done" ng-model="detail.done" type="checkbox">
+            Done
+        </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="id_name">Name</label>
+        <input class="form-control" id="id_name" maxlength="60" name="name" ng-model="detail.name" type="text">
+    </div>
+
+    <div class="form-group">
+        <div class="checkbox">
+        <label for="id_onhold">
+            <input id="id_onhold" name="onhold" ng-model="detail.onhold" type="checkbox">
+            Onhold
+        </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="id_priority">Priority</label>
+        <input class="form-control" id="id_priority" name="priority" ng-model="detail.priority" type="number" value="0">
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+</form>

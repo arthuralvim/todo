@@ -1,6 +1,6 @@
-<form ng-submit="todoCtrl.create()" method="POST">
+<form ng-submit="create()" method="POST">
     <div class="input-group input-group-lg">
-        <input type="text" class="form-control" ng-model="todoCtrl.new_todo.name" placeholder="Type the name of a new list...">
+        <input type="text" class="form-control" ng-model="new_todo.name" placeholder="Type the name of a new list...">
         <span class="input-group-btn">
             <button type="submit" class="btn btn-lg btn-success"><i class="glyphicon glyphicon-plus"></i></button>
         </span>
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="todo in todoCtrl.todolist">
+            <tr ng-repeat="todo in todolist | limitTo:20">
                 <td>{_ $index+1 _}</td>
                 <td class="col-md-6">{_ todo.name _}</td>
                 <td class="col-md-3">
@@ -30,9 +30,9 @@
                 </td>
                 <td class="hidden-xs hidden-sm">{_ todo.created |date:"d/M/yyyy H:m" _}</td>
                 <td>
-                    <div class="btn-group">
-                        <a ng-click="todoCtrl.update(todo)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i></a>
-                        <a ng-click="todoCtrl.delete(todo.id)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                    <div class="btn-group" ng-controller="ModalDemoCtrl">
+                        <a ng-click="open('lg', todo.id)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a ng-click="delete(todo.id, $index)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                     </div>
                 </td>
             </tr>
