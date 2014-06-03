@@ -1,7 +1,7 @@
 
 var app = angular.module('todo.controllers', []);
 
-app.controller('ModalDemoCtrl', function ($scope, $modal, $log, TodoRUDFactory, TodoLCFactory) {
+app.controller('ModalCtrl', function ($scope, $modal, $log, TodoRUDFactory, TodoLCFactory) {
 
     $scope.todo_rud_factory = TodoRUDFactory;
     $scope.todo_lc_factory = TodoLCFactory;
@@ -18,16 +18,19 @@ app.controller('ModalDemoCtrl', function ($scope, $modal, $log, TodoRUDFactory, 
                 },
                 factory_rud: function () {
                     return $scope.todo_rud_factory;
-                },
-                factory_lc: function () {
-                    return $scope.todo_lc_factory;
                 }
             }
         });
 
-        modalInstance.result.then(function (todolist) {
-            $scope.todolist = todolist
-            $log.info('Modal finished at: ' + new Date());
+        modalInstance.result.then(function () {
+            op = TodoLCFactory.query()
+            op.$promise.then(function (data) {
+                $log.info('Promise factory_lc: ' + data);
+                $scope.$parent.todolist = data;
+                $log.info('Modal finished at: ' + new Date());
+            }, function (data) {
+                $log.error('Problems factory_lc: ' + data);
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -35,29 +38,18 @@ app.controller('ModalDemoCtrl', function ($scope, $modal, $log, TodoRUDFactory, 
     };
 });
 
-app.controller('ModalInstanceCtrl', function ($scope, $log, $modalInstance, detail, factory_rud, factory_lc) {
-    $scope.factory_lc = factory_lc;
+app.controller('ModalInstanceCtrl', function ($scope, $log, $modalInstance, detail, factory_rud) {
     $scope.factory_rud = factory_rud;
     $scope.detail = detail;
-    $scope.todo = {};
 
     $scope.ok = function () {
         op = $scope.factory_rud.update($scope.detail)
         op.$promise.then(function (data) {
-            $log.info('Promise: ' + data);
+            $log.info('Promise update: ' + data);
+            $modalInstance.close();
         }, function (data) {
-            $log.error('Problems: ' + data);
+            $log.error('Problems update: ' + data);
         });
-
-        op = factory_lc.query()
-        op.$promise.then(function (data) {
-            $scope.todolist = data;
-            $log.info('Promise: ' + data);
-        }, function (data) {
-            $log.error('Problems: ' + data);
-        });
-
-        $modalInstance.close($scope.todolist);
     };
 
     $scope.cancel = function () {

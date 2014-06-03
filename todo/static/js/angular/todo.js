@@ -6,27 +6,23 @@
         $interpolateProvider.endSymbol('_}');
     });
 
-    app.directive('todoList', [ '$http', '$location', '$log', 'TodoRUDFactory', 'TodoLCFactory', function($scope, $http, $location, TodoRUDFactory, TodoLCFactory){
+    app.directive('todoList', [ '$log', 'TodoRUDFactory', 'TodoLCFactory', function($scope, $log, TodoRUDFactory, TodoLCFactory){
 
         return {
             restrict: 'E',
             templateUrl: 'static/js/angular/views/todo-list.html',
-            controller: function($http, $scope, $location, $log, TodoRUDFactory, TodoLCFactory){
+            controller: function($scope, $log, TodoRUDFactory, TodoLCFactory){
 
                 $scope.todolist = [];
                 $scope.new_todo = {};
 
-                $scope.detail = function (id) {
-                  $location.path('/api/todo/' + id);
-                };
-
                 $scope.create = function () {
                     op = TodoLCFactory.create($scope.new_todo)
                     op.$promise.then(function (data) {
-                        $log.info('Promise: ' + data);
-                        todo.todolist.push(data);
+                        $log.info('Promise create: ' + data);
+                        $scope.todolist.push(data);
                     }, function (data) {
-                        $log.error('Problems: ' + data);
+                        $log.error('Problems create: ' + data);
                     });
                     $scope.new_todo = {}
                 };
@@ -35,19 +31,19 @@
                   op = TodoRUDFactory.delete({ id: id });
                   var idx = index;
                   op.$promise.then(function (data) {
-                        $log.info('Promise: ' + data);
+                        $log.info('Promise delete: ' + data);
                         $scope.todolist.splice(idx, 1);
                     }, function (data) {
-                        $log.error('Problems: ' + data);
+                        $log.error('Problems delete: ' + data);
                     });
                 };
 
                 op = TodoLCFactory.query()
                 op.$promise.then(function (data) {
                     $scope.todolist = data;
-                    $log.info('Promise: ' + data);
+                    $log.info('Promise index: ' + data);
                 }, function (data) {
-                    $log.error('Problems: ' + data);
+                    $log.error('Problems index: ' + data);
                 });
 
             },

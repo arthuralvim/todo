@@ -17,7 +17,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody ng-controller="ModalCtrl">
             <tr ng-repeat="todo in todolist | limitTo:20">
                 <td>{_ $index+1 _}</td>
                 <td class="col-md-6">{_ todo.name _}</td>
@@ -30,7 +30,7 @@
                 </td>
                 <td class="hidden-xs hidden-sm">{_ todo.created |date:"d/M/yyyy H:m" _}</td>
                 <td>
-                    <div class="btn-group" ng-controller="ModalDemoCtrl">
+                    <div class="btn-group">
                         <a ng-click="open('lg', todo.id)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i></a>
                         <a ng-click="delete(todo.id, $index)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                     </div>
